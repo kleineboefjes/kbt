@@ -1,0 +1,110 @@
+/* ========== Kleine Boefies – Winkelmandje styling ========== */
+
+/* Pagina titel */
+.cart__heading,
+.cart__title,
+.cart h1 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #6CB4B8; /* mintblauw */
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Cart tabel */
+.cart-items {
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,.04);
+}
+.cart-items th,
+.cart-items td {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #3D2F2F;
+}
+.cart-items th {
+  background: #FFF8FB;
+  font-weight: 600;
+  color: #6CB4B8;
+}
+.cart-items tr:nth-child(even) td {
+  background: #fffafc;
+}
+
+/* Product titel */
+.cart-items .cart-item__name {
+  color: #6CB4B8;
+  font-weight: 600;
+  text-decoration: none;
+}
+.cart-items .cart-item__name:hover {
+  color: #F4A6B0;
+}
+
+/* Prijzen in pill */
+.cart-items .cart-item__price,
+.cart-items .cart-item__final-price,
+.cart__totals .totals__subtotal-value,
+.cart__totals .totals__subtotal {
+  background: #FFF0F4;
+  color: #F2A65A;
+  font-weight: 600;
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 0.95rem;
+}
+
+/* Quantity buttons */
+.quantity {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.quantity__button {
+  background: #F4B8C6;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background .25s ease;
+}
+.quantity__button:hover {
+  background: #ff4971;
+}
+.quantity__input {
+  width: 50px;
+  text-align: center;
+  border: 1px solid #E6DED5;
+  border-radius: 8px;
+  padding: .25rem;
+}
+
+/* Totals blok */
+.cart__totals {
+  margin-top: 2rem;
+  background: #FFF8FB;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,.04);
+}
+.cart__totals h2 {
+  font-size: 1.2rem;
+  color: #3D2F2F;
+  margin-bottom: .75rem;
+}
+
+/* Checkout knop */
+.cart__checkout-button,
+button[name="checkout"] {
+  width: 100%;
+  background: linear-gradient(135deg,

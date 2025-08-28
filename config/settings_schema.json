@@ -1,0 +1,112 @@
+[
+  {
+    "name": "Kleine Boefies - Basisinstellingen",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo" },
+      {
+        "type": "range",
+        "id": "logo_max_width",
+        "label": "Max. logobreedte (px)",
+        "default": 180,
+        "min": 80,
+        "max": 340,
+        "step": 5
+      },
+      {
+        "type": "select",
+        "id": "font_body",
+        "label": "Body lettertype",
+        "default": "system-ui",
+        "options": [
+          { "value": "system-ui", "label": "System UI" },
+          { "value": "poppins", "label": "Poppins" },
+          { "value": "nunito", "label": "Nunito" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "font_headings",
+        "label": "Koplettertype",
+        "default": "system-ui",
+        "options": [
+          { "value": "system-ui", "label": "System UI" },
+          { "value": "poppins", "label": "Poppins" },
+          { "value": "nunito", "label": "Nunito" }
+        ]
+      },
+      { "type": "header", "content": "Kleuren (Kleine Boefies)" },
+      { "type": "color", "id": "color_bg", "label": "Achtergrond", "default": "#FAF7F2" },
+      { "type": "color", "id": "color_text", "label": "Tekst", "default": "#3D2F2F" },
+      { "type": "color", "id": "color_muted", "label": "Secundaire tekst", "default": "#7B6F6F" },
+      { "type": "color", "id": "color_primary", "label": "Primaire kleur", "default": "#F4B8C6" },
+      { "type": "color", "id": "color_accent", "label": "Accentkleur", "default": "#B8DDE6" },
+      { "type": "color", "id": "color_border", "label": "Randkleur", "default": "#E6DED5" }
+    ]
+  },
+
+  {
+    "name": "Kleurschema’s (vereist door Dawn 15.x)",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          { "type": "color", "id": "background", "label": "Achtergrond", "default": "#FFFFFF" },
+          { "type": "color_background", "id": "background_gradient", "label": "Achtergrond verloop", "info": "Optioneel verloop voor achtergrond" },
+          { "type": "color", "id": "text", "label": "Tekst", "default": "#121212" },
+          { "type": "color", "id": "button", "label": "Primaire knop (achtergrond)", "default": "#121212" },
+          { "type": "color", "id": "button_label", "label": "Primaire knop (tekst)", "default": "#FFFFFF" },
+          { "type": "color", "id": "secondary_button_label", "label": "Secundaire knop (tekst)", "default": "#121212" },
+          { "type": "color", "id": "shadow", "label": "Schaduw", "default": "#121212" }
+        ],
+        "role": {
+          "text": "text",
+          "background": { "solid": "background", "gradient": "background_gradient" },
+          "links": "secondary_button_label",
+          "icons": "text",
+          "primary_button": "button",
+          "on_primary_button": "button_label",
+          "primary_button_border": "button",
+          "secondary_button": "background",
+          "on_secondary_button": "secondary_button_label",
+          "secondary_button_border": "secondary_button_label"
+        }
+      }
+    ]
+  },
+
+  {
+    "name": "Promotie",
+    "settings": [
+      { "type": "checkbox", "id": "promo_bar_enabled", "label": "Promobalk bovenaan tonen", "default": true },
+      { "type": "text", "id": "promo_bar_text", "label": "Promotekst", "default": "Gratis verzending vanaf €50 | Voor 16:00 besteld = snel geleverd!" },
+      { "type": "url", "id": "promo_bar_link", "label": "Promolink" }
+    ]
+  },
+
+  {
+    "name": "Header",
+    "settings": [
+      { "type": "checkbox", "id": "sticky_header", "label": "Sticky header", "default": true },
+      { "type": "link_list", "id": "main_menu", "label": "Hoofdmenu" }
+    ]
+  },
+
+  {
+    "name": "Footer",
+    "settings": [
+      { "type": "link_list", "id": "footer_menu_1", "label": "Footer menu 1" },
+      { "type": "link_list", "id": "footer_menu_2", "label": "Footer menu 2" },
+      { "type": "text", "id": "footer_note", "label": "Footer onderregel", "default": "© Kleine Boefies — Baby- en kinderkleding" }
+    ]
+  },
+
+  {
+    "name": "Productpagina",
+    "settings": [
+      { "type": "checkbox", "id": "show_sku", "label": "SKU tonen", "default": true },
+      { "type": "checkbox", "id": "enable_size_chart", "label": "Maattabel tonen", "default": true },
+      { "type": "page", "id": "size_chart_page", "label": "Maattabel pagina" }
+    ]
+  }
+]

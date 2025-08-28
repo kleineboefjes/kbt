@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <title>{{ page_title }} – {{ shop.name }}</title>
+    {{ content_for_header }}
+
+    <link href="{{ 'theme.css' | asset_url }}" rel="stylesheet">
+
+    <!-- Basis-styling (ongewijzigd) -->
+    <style>
+      :root{
+        --bg: {{ settings.color_bg }};
+        --text: {{ settings.color_text }};
+        --muted: {{ settings.color_muted }};
+        --primary: {{ settings.color_primary }};
+        --accent: {{ settings.color_accent }};
+        --border: {{ settings.color_border }};
+      }
+      html { scroll-behavior:smooth; }
+      body {
+        margin:0; background:var(--bg); color:var(--text);
+        font-family:{% if settings.font_body == 'system-ui' %}-apple-system, system-ui, Segoe UI, Roboto{% elsif settings.font_body == 'poppins' %}'Poppins', system-ui{% else %}'Nunito', system-ui{% endif %};
+        line-height:1.6;
+      }
+      h1,h2,h3,h4{
+        font-family:{% if settings.font_headings == 'system-ui' %}-apple-system, system-ui, Segoe UI, Roboto{% elsif settings.font_headings == 'poppins' %}'Poppins', system-ui{% else %}'Nunito', system-ui{% endif %};
+        margin:0 0 .5rem 0; line-height:1.2
+      }
+      .container{ max-width:1180px; margin:0 auto; padding:0 1rem; }
+      .btn{ display:inline-block; padding:.75rem 1rem; border-radius:999px; border:1px solid var(--border); background:var(--primary); color:#2b1d1d; text-decoration:none; font-weight:700; }
+      .btn:hover{ filter:brightness(.95); }
+      .grid{ display:grid; gap:1rem; }
+      .card{ border:1px solid var(--border); border-radius:18px; background:#fff; overflow:hidden; }
+      .product-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; }
+      .product-card{ border:1px solid var(--border); border-radius:16px; overflow:hidden; background:#fff; transition:.2s ease; }
+      .product-card:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.06); }
+      .thumb{ aspect-ratio:4/5; background:#f7fafc; display:flex; align-items:center; justify-content:center; }
+      header.header{ position:{% if settings.sticky_header %}sticky{% else %}static{% endif %}; top:0; background:rgba(255,255,255,.85); border-bottom:1px solid var(--border); backdrop-filter:blur(8px); z-index:50; }
+      .menu a{ color:inherit; text-decoration:none; padding:.5rem .75rem; border-radius:8px; }
+      .menu a:hover{ background:rgba(0,0,0,.05); }
+      .badge{ display:inline-block; background:var(--accent); color:#18323a; padding:.25rem .5rem; border-radius:999px; font-size:.75rem; font-weight:700; }
+      footer{ border-top:1px solid var(--border); background:#fff; }
+    </style>
+
+    <!-- ===== Kleine Boefies – Mobile Lockdown (voorkomt horizontale scroll) ===== -->
+    <style id="kb-mobile-lockdown">
+      *,*::before,*::after{box-sizing:border-box}
+      html,body{width:100%;max-width:100%;overflow-x:hidden}
+      img,svg,video,canvas{max-width:100%;height:auto;display:block}
+
+      .page-width{
+        max-width:var(--page-width,120rem);
+        margin-inline:auto;
+        padding-inline:16px;
+      }
+
+      .header-wrapper{position:relative;z-index:30}
+      .shopify-section:first-child .announcement-bar{width:100%;max-width:100%}
+
+      .banner{border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+      .banner__content{padding:clamp(16px,5vw,36px)}
+      .banner__heading{font-family:'Nunito',sans-serif;font-weight:800;color:#3D2F2F;line-height:1.1;font-size:clamp(22px,6vw,40px)}
+      .banner__text{margin-top:8px;color:#6b6060;font-size:clamp(14px,3.8vw,18px)}
+      .banner__media img{width:100%;height:auto}
+
+      @media (max-width: 749px){
+        .shopify-section,
+        .page-width,
+        .banner,
+        .banner__content,
+        .banner__media,
+        .grid,
+        .grid__item,
+        .multicolumn,
+        .featured-collection,
+        .slider-component,
+        .slider,
+        .slider--mobile{
+          width:100%;
+          max-width:100vw;
+          overflow-x:hidden;
+        }
+
+        .grid{margin-left:0;margin-right:0}
+        .grid__item{padding-left:0;padding-right:0}
+
+        .slider{overflow:hidden}
+        .slider--mobile{margin-left:0;margin-right:0}
+
+        .card, .card__content, .card__media{overflow:hidden}
+      }
+
+      .button,.button--primary{
+        border:0;border-radius:999px;padding:.9rem 1.25rem;font-weight:700;
+        background:linear-gradient(135deg,#F4B8C6,#B8DDE6);color:#fff;
+        box-shadow:0 4px 10px rgba(0,0,0,.08);transition:transform .15s ease-in-out
+      }
+      .button:hover{transform:scale(1.03)}
+    </style>
+
+    <!-- ===== Kleine Boefies – Homepage mobiele finetune (hero/banner) ===== -->
+    <style id="kb-home-hero-fix">
+      .template-index .page-width{max-width:var(--page-width,120rem);margin:0 auto;padding:0 16px}
+      @media (max-width:749px){
+        .header-wrapper{position:sticky;top:0;z-index:50}
+        .shopify-section:first-child .announcement-bar{position:relative;z-index:51}
+      }
+      .template-index .banner{
+        border-radius:16px; overflow:hidden; background:#fff;
+        box-shadow:0 4px 14px rgba(0,0,0,.05);
+      }
+      .template-index .banner__content{padding:clamp(16px,5vw,36px)}
+      .template-index .banner__heading,
+      .template-index h1, .template-index .title--primary{
+        font-family:'Nunito',sans-serif; font-weight:800;
+        color:#3D2F2F; line-height:1.1; font-size:clamp(22px,6vw,40px);
+      }
+      .template-index .banner__text{margin-top:8px; color:#6b6060; font-size:clamp(14px,3.8vw,18px)}
+      @media (max-width:749px){
+        html,body{max-width:100%;overflow-x:hidden}
+        .template-index .banner__box{width:100%}
+        .template-index .banner__media,
+        .template-index .banner__content{width:100%;max-width:100%}
+        .template-index .shopify-section:has(.banner){padding:0 0 12px}
+        .template-index .grid,
+        .template-index .multicolumn,
+        .template-index .featured-collection{padding-left:6px;padding-right:6px}
+      }
+      .template-index .button, .template-index .button--primary{
+        border:0;border-radius:999px;padding:.9rem 1.25rem;font-weight:700;
+        background:linear-gradient(135deg,#F4B8C6,#B8DDE6); color:#fff;
+        box-shadow:0 4px 10px rgba(0,0,0,.08); transition:transform .15s ease-in-out
+      }
+      .template-index .button:hover{transform:scale(1.03)}
+      a{color:#6CB4B8} a:hover{color:#F4A6B0}
+    </style>
+  </head>
+
+  <body>
+    {% section 'promo-bar' %}
+    {% section 'header' %}
+    <main role="main">{{ content_for_layout }}</main>
+    {% section 'footer' %}
+
+    {% if template.name == 'cart' %}
+      <script src="{{ 'kb-cart-fixes.js' | asset_url }}" defer></script>
+    {% endif %}
+  </body>
+</html>

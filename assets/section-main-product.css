@@ -1,0 +1,8 @@
+/* section-main-product.css */
+/* Kleine Boefies speelse productpagina */
+
+.product__title h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  color: #3D2F2F;
+}

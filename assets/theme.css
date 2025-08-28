@@ -1,0 +1,615 @@
+/* --- Kleine Boefies: Producttitels & prijzen zachter maken --- */
+
+/* Producttitel */
+.card__heading,
+.card__heading a,
+.card__information .full-unstyled-link,
+.product-card .title {
+  color: #6CB4B8 !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  transition: color .25s ease;
+}
+
+/* Hoverkleur titel */
+.card__heading a:hover,
+.card__information .full-unstyled-link:hover,
+.product-card .title:hover {
+  color: #F4A6B0 !important;
+  text-decoration: none !important;
+}
+
+/* Prijs – warme pastel oranje in pill */
+.price .price-item,
+.price-item,
+.product-card .price,
+.card-information .price {
+  color: #F2A65A !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  background: #FFF0F4 !important;
+  padding: 0.35rem 0.7rem !important;
+  border-radius: 999px !important;
+  display: inline-block !important;
+}
+
+/* Oude prijslabels (sale / regular) verbergen */
+.price__sale .price-item--regular,
+.price__regular .price__regular-label,
+.price__sale .price__sale-label {
+  display: none !important;
+}
+
+/* ----- Kaarten altijd even hoog + info zichtbaar ----- */
+.product-grid .card__content {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+.product-grid .card-information { margin-top: auto !important; }
+.product-grid .card__content--hidden { display: block !important; }
+
+/* Extra stijl voor kaarten */
+.kb-card__media {
+  position: relative;
+  aspect-ratio: 1/1;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #FFF8FB;
+}
+.kb-card__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .25s ease;
+}
+.kb-card:hover .kb-card__media img { transform: scale(1.04); }
+
+/* Titelruimte zodat rijen niet verspringen */
+.kb-card__title {
+  line-height: 1.25;
+  min-height: 3.2em;
+  overflow: hidden;
+}
+
+/* Hover schaduw voor de kaart */
+.product-card-wrapper .card {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.product-card-wrapper .card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  transform: translateY(-2px);
+}
+
+/* ------ Footer betaaliconen horizontaal ------ */
+.footer .list-payment,
+.footer__content-bottom .list-payment,
+.footer__payment, 
+.footer__payment-icons,
+.payment-icons-list {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 !important;
+  margin: 16px 0 0 0 !important;
+  list-style: none !important;
+}
+.footer .list-payment img,
+.footer__content-bottom .list-payment img,
+.payment-icons-list img {
+  height: 28px;
+  width: auto;
+  display: block;
+  opacity: .95;
+  transition: opacity .3s ease;
+}
+.footer .list-payment img:hover,
+.footer__content-bottom .list-payment img:hover,
+.payment-icons-list img:hover {
+  opacity: 1;
+}
+
+/* ------ Speelse paginatie ------ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30px;
+}
+.pagination__link, .pagination__current {
+  display: inline-block;
+  min-width: 36px;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 50%;
+  background: #f6f6f6;
+  color: #333;
+  text-decoration: none;
+  transition: all .25s ease;
+}
+.pagination__link:hover { background: #ff9cb3; color: #fff; }
+.pagination__current { background: #ff4971; color: #fff; font-weight: 700; }
+.pagination__arrow {
+  padding: 8px 14px;
+  border-radius: 50%;
+  background: #f6f6f6;
+  color: #333;
+  transition: all .25s ease;
+}
+.pagination__arrow:hover { background: #ff9cb3; color: #fff; }
+
+/* Zorg dat afbeeldingen nooit onzichtbaar blijven */
+.card__media img,
+.product-card-wrapper .media img,
+.media img {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+/* --- Kleine Boefies: Filters en sortering speels --- */
+.facets-container {
+  background: #FFF8FB;
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,.04);
+}
+.facets-container summary {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #6CB4B8;
+  cursor: pointer;
+}
+.facets-container details[open] summary { color: #F4A6B0; }
+.facets-container label,
+.facets-container select {
+  font-size: 0.95rem;
+  color: #3D2F2F;
+}
+.facets-container .facet-checkbox input[type="checkbox"] {
+  accent-color: #F2A65A;
+}
+
+/* ====== FIX: restore Shopify/Dawn .visually-hidden ====== */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+}
+
+/* Toon maar één prijs op kaarten */
+.product-grid .card-information .price__regular,
+.product-grid .card-information .unit-price,
+.product-grid .card-information .price__badges {
+  display: none !important;
+}
+
+/* KB: filter NIET sticky maken */
+.section--collection .facets,
+.collection [class*="facet"] {
+  position: static !important;
+  top: auto !important;
+}
+
+/* ===== Footer styling Kleine Boefies ===== */
+
+/* Footer linkjes */
+.shopify-section-footer .footer a,
+.footer a {
+  color: #6CB4B8 !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+.shopify-section-footer .footer a:hover,
+.footer a:hover {
+  color: #fff !important;
+  background: #F4A6B0 !important;
+  text-decoration: none !important;
+}
+
+/* Footer kopjes (Menu, Service, Nieuwsbrief, etc.) */
+.footer h2,
+.footer h3,
+.footer .footer-block__heading {
+  color: #3D2F2F !important;    /* donkerder bruin/grijs */
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  position: relative;
+}
+.footer h2::after,
+.footer h3::after,
+.footer .footer-block__heading::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 3px;
+  background: #F4A6B0;          /* zacht roze lijntje */
+  border-radius: 2px;
+  margin-top: 4px;
+}
+/* ========== Kleine Boefies – Winkelmandje styling ========== */
+
+/* Pagina titel */
+.cart__heading,
+.cart__title,
+.cart h1 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #6CB4B8; /* mintblauw */
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Cart tabel */
+.cart-items {
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,.04);
+}
+.cart-items th,
+.cart-items td {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #3D2F2F;
+}
+.cart-items th {
+  background: #FFF8FB;
+  font-weight: 600;
+  color: #6CB4B8;
+}
+.cart-items tr:nth-child(even) td {
+  background: #fffafc;
+}
+
+/* Product titel */
+.cart-items .cart-item__name {
+  color: #6CB4B8;
+  font-weight: 600;
+  text-decoration: none;
+}
+.cart-items .cart-item__name:hover {
+  color: #F4A6B0;
+}
+
+/* Prijzen in pill */
+.cart-items .cart-item__price,
+.cart-items .cart-item__final-price,
+.cart__totals .totals__subtotal-value,
+.cart__totals .totals__subtotal {
+  background: #FFF0F4;
+  color: #F2A65A;
+  font-weight: 600;
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 0.95rem;
+}
+
+/* Quantity buttons */
+.quantity {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.quantity__button {
+  background: #F4B8C6;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background .25s ease;
+}
+.quantity__button:hover {
+  background: #ff4971;
+}
+.quantity__input {
+  width: 50px;
+  text-align: center;
+  border: 1px solid #E6DED5;
+  border-radius: 8px;
+  padding: .25rem;
+}
+/* ==================== KB – MOBILE HOMEPAGE FIX PACK ==================== */
+/* Doel: nette mobiele weergave van header + hero (banner) + grid.
+   Scope: alleen kleine schermen, dus geen impact op desktop. */
+
+@media (max-width: 749px) {
+  /* 1) Voorkom horizontale scroll/‘samenknijpen’ */
+  html, body { max-width: 100%; overflow-x: hidden; }
+
+  /* 2) Header en announcement netjes “boven” houden, niets overlapt */
+  .announcement-bar,
+  .header-wrapper,
+  .shopify-section-header {
+    position: relative;
+    z-index: 30;                /* boven de content */
+    background: #ffffff;        /* voorkomt doorschijnen */
+  }
+
+  /* 3) Hero/banner – nette typografie en spacing */
+  .banner {                     /* Dawn hero container */
+    min-height: unset !important;
+    padding: 0 14px 18px !important;     /* zachte zijmarge */
+    background: transparent !important;
+  }
+  .banner__media {
+    position: relative !important;
+    height: auto !important;            /* laat de media natuurlijk schalen */
+    border-radius: 14px !important;
+    overflow: hidden !important;
+  }
+  .banner__media img,
+  .banner__media .media > img,
+  .banner__media .media--adapt > img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+
+  /* Contentblok (titel/tekst/knop) als ‘card’ */
+  .banner__box {
+    margin-top: 12px !important;
+    padding: 16px 14px !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,.04) !important;
+  }
+  .banner__heading {
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    font-size: clamp(22px, 7vw, 30px) !important;
+    color: #3D2F2F !important;
+    margin: 0 0 8px !important;
+  }
+  .banner__text,
+  .banner__text p {
+    margin: 0 0 10px !important;
+    font-size: clamp(14px, 4.2vw, 16px) !important;
+    line-height: 1.45 !important;
+    color: #3D2F2F !important;
+  }
+  .banner__buttons .button,
+  .banner__buttons .button--primary {
+    width: 100% !important;
+    border-radius: 999px !important;
+    padding: 14px !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #F4B8C6, #B8DDE6) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,.08) !important;
+  }
+
+  /* 4) Productteasers/grid op mobiel: lucht en gelijkmatige tiles */
+  .grid--2-col-tablet-down .grid__item,
+  .grid--peek .grid__item {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .card,
+  .product-card-wrapper .card {
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,.04) !important;
+    background: #fff !important;
+  }
+  .card__media,
+  .card__media img {
+    aspect-ratio: 1 / 1 !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+  }
+  .card-information { padding: 10px 12px !important; }
+
+  /* 5) Kleine fix: iconknoppen boven beeld niet “zweven” */
+  .slideshow__controls,
+  .banner__controls { z-index: 35 !important; }
+}
+/* ================== /KB – MOBILE HOMEPAGE FIX PACK ================== */
+/* ================================================================
+   KLEINE BOEFIES – MOBILE FIX FULL WIDTH (cart + homepage)
+   ================================================================ */
+
+/* Basis reset: voorkom horizontale scroll */
+html, body {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* Alle secties & wrappers moeten zich houden aan 100vw */
+.shopify-section,
+.page-width,
+.grid,
+.grid__item,
+.banner,
+.banner__media,
+.banner__content,
+.multicolumn,
+.featured-collection,
+.slider,
+.slider--mobile,
+.cart,
+.template-cart .cart-items,
+.template-cart .cart__footer,
+.template-cart .cart__totals {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Grids corrigeren op mobiel */
+@media (max-width: 749px) {
+  .grid {
+    display: block !important;
+  }
+  .grid__item {
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .slider,
+  .slider--mobile {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Cart images forceren binnen kolom */
+.template-cart .cart-item__media,
+.template-cart .cart-item__image-container {
+  max-width: 120px !important;
+}
+/* =========================================================
+   KB — MOBILE HEADER FIX (voorkomt half-buiten-beeld)
+   ========================================================= */
+
+/* 1) Geen horizontale scroll die de header afsnijdt */
+html, body {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* 2) Header en wrapper altijd exact schermbreed, zonder transform */
+.shopify-section-header,
+header.header,
+.header-wrapper {
+  position: sticky !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  transform: none !important;
+  box-sizing: border-box !important;
+  -webkit-overflow-scrolling: touch;
+  z-index: 100;
+  /* voorkom dat een child met brede inhoud de header “duwt” */
+  overflow: visible;
+}
+
+/* 3) Binnenruimte van de header niet groter dan het scherm */
+.header-wrapper .page-width,
+header.header .page-width {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: max(16px, env(safe-area-inset-left)) !important;
+  padding-right: max(16px, env(safe-area-inset-right)) !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* 4) Voorkom dat menu/zoek/icoontjes de header breder maken */
+.header__heading,
+.header__inline-menu,
+.header__icons,
+.header__search,
+.header__menu,
+.menu-drawer__menu {
+  min-width: 0 !important;          /* laat flex-items krimpen */
+  flex: 0 1 auto !important;
+}
+
+@media (max-width: 749px) {
+  /* inline menu mag afkappen op 1 regel of wrappen */
+  .header__inline-menu {
+    display: flex !important;
+    flex-wrap: wrap !important;      /* of: white-space: nowrap; overflow: hidden; text-overflow: ellipsis; */
+    gap: 8px;
+    max-width: 100% !important;
+  }
+
+  /* logo en icons netjes uitlijnen en nooit buiten beeld */
+  .header__heading-link,
+  .header__heading,
+  .header__heading .header__heading-logo,
+  .header__heading img,
+  .site-header__logo img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* vermijd negatieve margins of brede grids in de header */
+  .header .grid,
+  .header .grid__item {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    max-width: 100% !important;
+  }
+}
+
+/* 5) Edge cases: elk element met “vw” binnen de header begrenzen */
+header.header *[style*="vw"],
+.header-wrapper *[style*="vw"] {
+  max-width: 100% !important;
+}
+
+/* 6) Als er elders nog een horizontale slider aan de bovenzijde staat,
+      zorg dat die niet buiten het scherm tekent */
+header + .shopify-section .slider,
+header + .shopify-section .flickity-enabled,
+header + .shopify-section .splide,
+header + .shopify-section .swiper {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+/* ==== KB – Mobiel: gebruik hamburger, verberg brede menubalk ==== */
+@media (max-width: 749px) {
+  /* verberg de horizontale menubalk */
+  .header__inline-menu,
+  .list-menu--inline,
+  .header__menu { display: none !important; }
+
+  /* toon menu-icoon (hamburger) */
+  .header__icon--menu { display: inline-flex !important; }
+
+  /* zorg dat de drawer boven alles ligt en schermvullend is */
+  .menu-drawer,
+  .menu-drawer__inner {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    z-index: 220 !important;
+  }
+
+  /* inhoud van de drawer: nette padding/typografie */
+  .menu-drawer__navigation { padding: 18px 20px !important; }
+  .menu-drawer__menu-item { font-size: 1.05rem; line-height: 1.4; }
+
+  /* body mag niet horizontaal scrollen */
+  html, body { max-width: 100%; overflow-x: hidden; }
+}
