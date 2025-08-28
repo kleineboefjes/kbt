@@ -1,0 +1,40 @@
+<div class="container" style="padding:1.5rem 0;">
+  <div class="grid" style="grid-template-columns:1fr 1fr;">
+    <div>
+      {% if product.media.size > 0 %}
+        <div class="card">{{ product | media }}</div>
+      {% else %}
+        <div class="card" style="aspect-ratio: 4/5; display:flex; align-items:center; justify-content:center;">Nog geen productfoto</div>
+      {% endif %}
+    </div>
+    <div>
+      <nav class="breadcrumbs"><a href="{{ routes.root_url }}">Home</a> / <a href="{{ routes.all_products_collection_url }}">Shop</a> / <span>{{ product.title }}</span></nav>
+      <h1>{{ product.title }}</h1>
+      {% if settings.show_sku and product.selected_or_first_available_variant.sku %}<div style="color:var(--muted); font-size:.9rem;">SKU: {{ product.selected_or_first_available_variant.sku }}</div>{% endif %}
+      <div class="price" style="font-size:1.25rem; margin:.5rem 0;">{{ product.price | money }}</div>
+
+      {% form 'product', product %}
+        {% if product.has_only_default_variant == false %}
+          {% for option in product.options_with_values %}
+            <label>{{ option.name }}</label>
+            <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem;">
+              {% for value in option.values %}
+                <label style="border:1px solid var(--border); border-radius:999px; padding:.5rem .75rem; cursor:pointer;">
+                  <input class="sr-only" type="radio" name="options[{{ option.name }}]" value="{{ value }}" {% if option.selected_value == value %}checked{% endif %}>
+                  <span>{{ value }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        {% endif %}
+        <div class="quantity" style="margin:.75rem 0;"><label for="quantity">Aantal</label><input id="quantity" name="quantity" type="number" min="1" value="1"></div>
+        <button type="submit" class="btn" {% unless product.available %}disabled{% endunless %}>{% if product.available %}In winkelwagen{% else %}Uitverkocht{% endif %}</button>
+      {% endform %}
+
+      {% if settings.enable_size_chart and settings.size_chart_page %}
+        <details style="margin-top:1rem;"><summary>Maattabel</summary><div style="margin-top:.5rem;">{{ pages[settings.size_chart_page].content }}</div></details>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% schema %}{ "name":"Product" }{% endschema %}

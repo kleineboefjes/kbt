@@ -1,0 +1,9 @@
+{% if settings.promo_bar_enabled and settings.promo_bar_text != blank %}
+  <div style="background:var(--accent);color:#18323a;">
+    <div class="container" style="padding:.5rem 1rem; text-align:center;">
+      <a href="{{ settings.promo_bar_link | default: routes.all_products_collection_url }}" style="text-decoration:none; color:inherit; font-weight:700;">
+        {{ settings.promo_bar_text }}
+      </a>
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,26 @@
+<div class="container" style="padding:1rem 0 2rem;">
+  <h1>Zoeken</h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" style="margin:1rem 0; display:flex; gap:.5rem;">
+    <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Zoek naar kleding of accessoires…" style="flex:1; padding:.75rem; border:1px solid var(--border); border-radius:12px;">
+    <button class="btn" type="submit">Zoeken</button>
+  </form>
+  {% if search.performed %}
+    <h2 style="margin:1rem 0;">Resultaten voor “{{ search.terms }}”</h2>
+    <div class="product-grid">
+      {% for item in search.results %}
+        {% if item.object_type == 'product' %}
+          <div class="product-card">
+            <a href="{{ item.url }}">
+              <div class="thumb">
+                {% if item.featured_image %}<img src="{{ item | image_url: width: 480 }}" alt="{{ item.title }}" style="width:100%;height:100%;object-fit:cover;">{% else %}<span style="opacity:.6;">Nog geen afbeelding</span>{% endif %}
+              </div>
+              <div class="title">{{ item.title }}</div>
+              <div class="price">{{ item.price | money }}</div>
+            </a>
+          </div>
+        {% endif %}
+      {% else %}<div class="alert">Geen resultaten gevonden.</div>{% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% schema %}{ "name":"Zoeken" }{% endschema %}
