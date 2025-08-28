@@ -1,0 +1,139 @@
+{% comment %}
+  Kleine Boefies — Header (desktop + mobiel hamburger, robuuste menu-resolver)
+{% endcomment %}
+
+{%- comment -%} ==== MENU RESOLVER (robuust) ==== {%- endcomment -%}
+{%- assign menu_links = nil -%}
+
+{%- assign setting_menu = section.settings.main_menu -%}
+{%- if setting_menu and setting_menu.links and setting_menu.links.size > 0 -%}
+  {%- assign menu_links = setting_menu.links -%}
+{%- endif -%}
+
+{%- if menu_links == nil or menu_links.size == 0 -%}
+  {%- assign possible_handles = 'main-menu,hoofd-menu,hoofd_menu,hoofdmenu' | split: ',' -%}
+  {%- for h in possible_handles -%}
+    {%- if linklists[h] and linklists[h].links and linklists[h].links.size > 0 -%}
+      {%- assign menu_links = linklists[h].links -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+<style>
+  .kb-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #eee}
+  .kb-header__bar{max-width:1180px;margin:0 auto;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between}
+  .kb-logo{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit}
+  .kb-logo img{max-height:42px;width:auto;height:auto}
+
+  /* desktop menu */
+  .kb-desktop-nav ul{display:flex;gap:.25rem;list-style:none;margin:0;padding:0}
+  .kb-desktop-nav a{display:block;padding:.5rem .75rem;border-radius:8px;text-decoration:none;color:inherit}
+  .kb-desktop-nav a:hover{background:rgba(0,0,0,.05)}
+
+  .kb-icons{display:flex;align-items:center;gap:.5rem}
+
+  /* mobiel: hamburger aan, desktop menu uit */
+  .kb-burger{display:none;cursor:pointer;border:0;background:transparent;padding:.5rem;margin:0;font-size:28px;line-height:1}
+  .kb-drawer{display:none}
+
+  @media (max-width: 989.98px){
+    .kb-desktop-nav{display:none}
+    .kb-drawer{display:block}
+    .kb-burger{display:inline-flex}
+  }
+
+  /* drawer */
+  .kb-drawer details{position:relative}
+  .kb-drawer summary{list-style:none}
+  .kb-drawer summary::-webkit-details-marker{display:none}
+  .kb-drawer__panel{position:fixed;inset:0;display:none}
+  .kb-drawer details[open] .kb-drawer__panel{display:block}
+  .kb-drawer__overlay{position:absolute;inset:0;background:rgba(0,0,0,.32)}
+  .kb-drawer__sheet{position:absolute;top:0;right:0;height:100%;width:min(86vw,320px);background:#fff;box-shadow:-8px 0 24px rgba(0,0,0,.12);padding:1rem;display:flex;flex-direction:column;gap:1rem}
+  .kb-drawer__close{align-self:flex-end;border:0;background:transparent;font-size:24px;line-height:1;padding:.25rem .5rem;cursor:pointer}
+  .kb-drawer__menu{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.25rem}
+  .kb-drawer__menu a{display:block;padding:.75rem 1rem;border-radius:10px;text-decoration:none;color:#333}
+  .kb-drawer__menu a:hover{background:#f6f6f6}
+</style>
+
+<header class="kb-header">
+  <div class="kb-header__bar">
+    <a href="{{ routes.root_url }}" class="kb-logo" aria-label="{{ shop.name }} home">
+      {% if settings.logo %}
+        <img src="{{ settings.logo | image_url: width: 240 }}" alt="{{ shop.name }}" style="max-width: {{ settings.logo_max_width | default: 140 }}px;">
+      {% else %}
+        <strong>Kleine Boefies</strong>
+      {% endif %}
+    </a>
+
+    <!-- DESKTOP -->
+    <nav class="kb-desktop-nav" aria-label="Hoofdmenu">
+      {% if menu_links and menu_links.size > 0 %}
+        <ul>
+          {% for link in menu_links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <ul>
+          <li><a href="/collections/accessoires">Accessoires</a></li>
+          <li><a href="/collections/baby">Baby</a></li>
+          <li><a href="/collections/jongens">Jongens</a></li>
+          <li><a href="/collections/meisjes">Meisjes</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+        </ul>
+      {% endif %}
+    </nav>
+
+    <div class="kb-icons">
+      <a href="{{ routes.search_url }}" aria-label="Zoeken">🔎</a>
+      <a href="{{ routes.cart_url }}" aria-label="Winkelwagen">🛒 ({{ cart.item_count }})</a>
+
+      <!-- MOBIEL -->
+      <div class="kb-drawer">
+        <details>
+          <summary class="kb-burger" aria-label="{{ 'sections.header.menu' | t }}">☰</summary>
+
+          <div class="kb-drawer__panel">
+            <div class="kb-drawer__sheet">
+              <button class="kb-drawer__close" aria-label="{{ 'accessibility.close' | t }}"
+                      onclick="this.closest('details').removeAttribute('open')">×</button>
+
+              <nav role="navigation" aria-label="Mobiel hoofdmenu">
+                <ul class="kb-drawer__menu">
+                  {% if menu_links and menu_links.size > 0 %}
+                    {% for link in menu_links %}
+                      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                    {% endfor %}
+                  {% else %}
+                    <li><a href="/collections/accessoires">Accessoires</a></li>
+                    <li><a href="/collections/baby">Baby</a></li>
+                    <li><a href="/collections/jongens">Jongens</a></li>
+                    <li><a href="/collections/meisjes">Meisjes</a></li>
+                    <li><a href="/pages/contact">Contact</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+
+            <div class="kb-drawer__overlay" onclick="this.closest('details').removeAttribute('open')"></div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Hoofdmenu (desktop)"
+    }
+  ]
+}
+{% endschema %}

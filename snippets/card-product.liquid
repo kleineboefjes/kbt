@@ -1,0 +1,44 @@
+{%- assign product = card_product | default: product -%}
+{%- if product == blank -%}{% comment %}Geen product{% endcomment %}{%- endif -%}
+{%- if product != blank -%}
+<article class="card-wrapper product-card-wrapper kb-card">
+  <a href="{{ product.url }}" class="card card--standard" aria-label="{{ product.title | escape }}">
+    <div class="card__media">
+      {%- assign featured = product.featured_media -%}
+      {%- if featured -%}
+        <div class="media kb-card__media" style="--kb-ar: {% if media_aspect_ratio == 'portrait' %}4/5{% else %}1/1{% endif %};">
+          <img
+            src="{{ featured | image_url: width: 533 }}"
+            srcset="
+              {{ featured | image_url: width: 360 }} 360w,
+              {{ featured | image_url: width: 533 }} 533w,
+              {{ featured | image_url: width: 720 }} 720w
+            "
+            sizes="(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw"
+            width="{{ featured.width }}"
+            height="{{ featured.height }}"
+            alt="{{ featured.alt | escape }}"
+            loading="lazy">
+        </div>
+      {%- else -%}
+        <div class="media kb-card__media kb-media--empty"></div>
+      {%- endif -%}
+    </div>
+
+    <div class="card__content">
+      <h3 class="card__heading h5 kb-card__title">
+        {{ product.title | escape }}
+      </h3>
+
+      <div class="card-information kb-card__price">
+        {%- render 'price',
+          product: product,
+          use_variant: true,
+          show_compare_at: false,
+          show_badges: false
+        -%}
+      </div>
+    </div>
+  </a>
+</article>
+{%- endif -%}

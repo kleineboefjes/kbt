@@ -1,0 +1,78 @@
+<section class="product">
+  {% assign v = product.selected_or_first_available_variant %}
+
+  {% if product.media.size > 0 %}
+    <div class="product__media-list">
+      {% for media in product.media %}
+        {{ media | media_tag }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <h1>{{ product.title }}</h1>
+
+  <div class="price">
+    {% if v.compare_at_price and v.compare_at_price > v.price %}
+      <s>{{ v.compare_at_price | money }}</s>
+    {% endif %}
+    <span>{{ v.price | money }}</span>
+  </div>
+
+  <form method="post" action="/cart/add" id="product-form-{{ section.id }}">
+    <input type="hidden" name="id" value="{{ v.id }}">
+
+    {% unless product.has_only_default_variant %}
+      <div class="variant-picker">
+        {% for option in product.options_with_values %}
+          <div class="option">
+            <label>{{ option.name }}</label>
+            <div class="values">
+              {% for value in option.values %}
+                <label>
+                  <input type="radio"
+                         name="options[{{ option.name }}]"
+                         value="{{ value | escape }}"
+                         {% if option.selected_value == value %}checked{% endif %}>
+                  <span>{{ value }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endunless %}
+
+    <div class="quantity">
+      <label for="Quantity-{{ section.id }}">Aantal</label>
+      <input id="Quantity-{{ section.id }}" type="number" name="quantity" value="1" min="1">
+    </div>
+
+    <button type="submit" {% unless v.available %}disabled{% endunless %}>
+      {% if v.available %}In winkelwagen{% else %}Uitverkocht{% endif %}
+    </button>
+  </form>
+</section>
+
+<script>
+document.addEventListener('change', function(e){
+  if (!e.target.name || !e.target.name.startsWith('options[')) return;
+  var form = document.getElementById('product-form-{{ section.id }}');
+  var variants = {{ product.variants | json }};
+  var selected = [];
+  {% for option in product.options_with_values %}
+    selected.push(
+      form.querySelector('input[name="options[{{ option.name }}]"]:checked')?.value
+    );
+  {% endfor %}
+  var match = variants.find(function(v){
+    return {% for option in product.options_with_values -%}
+      v["option{{ forloop.index }}"] == selected[{{ forloop.index0 }}]{% if forloop.last == false %} && {% endif %}
+    {%- endfor %};
+  });
+  if (match) { form.querySelector('input[name="id"]').value = match.id; }
+});
+</script>
+
+{% schema %}
+{ "name": "KP Product (standalone)", "settings": [] }
+{% endschema %}

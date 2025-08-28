@@ -1,0 +1,45 @@
+<div class="container" style="padding:1rem 0 2rem;">
+  <h1>{{ collection.title }}</h1>
+  {% if collection.description != blank %}<p style="color:var(--muted);">{{ collection.description }}</p>{% endif %}
+  {% paginate collection.products by 24 %}
+  <div class="product-grid" style="margin-top:1rem;">
+    {% for product in collection.products %}
+      <div class="product-card">
+        <a href="{{ product.url }}">
+          <div class="thumb">
+            {% if product.featured_image %}<img src="{{ product | image_url: width: 480 }}" alt="{{ product.title }}" style="width:100%;height:100%;object-fit:cover;">{% else %}<span style="opacity:.6;">Nog geen afbeelding</span>{% endif %}
+          </div>
+          <div class="title">{{ product.title }}</div>
+          <div class="price">{{ product.price | money }}</div>
+        </a>
+      </div>
+    {% else %}
+      <div class="alert">Nog geen producten in deze collectie.</div>
+    {% endfor %}
+  </div>
+  <div class="pagination">
+ <nav class="pagination" role="navigation" aria-label="Paginering">
+  {% if paginate.previous %}
+    <a href="{{ paginate.previous.url }}" class="pagination__arrow" aria-label="Vorige pagina">←</a>
+  {% endif %}
+
+  <ul class="pagination__list" role="list">
+    {% for part in paginate.parts %}
+      <li>
+        {% if part.is_link %}
+          <a href="{{ part.url }}" class="pagination__link" aria-label="Ga naar pagina {{ part.title }}">{{ part.title }}</a>
+        {% else %}
+          <span class="pagination__current" aria-current="page">{{ part.title }}</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if paginate.next %}
+    <a href="{{ paginate.next.url }}" class="pagination__arrow" aria-label="Volgende pagina">→</a>
+  {% endif %}
+</nav>
+
+  {% endpaginate %}
+</div>
+{% schema %}{ "name":"Collectie" }{% endschema %}

@@ -1,0 +1,14 @@
+<div class="container" style="padding:1rem 0 2rem;">
+  <h1>Contact</h1>
+  {% form 'contact' %}
+    {% if form.posted_successfully? %}<div class="alert">Bedankt! We nemen snel contact op.</div>{% endif %}
+    {{ form.errors | default_errors }}
+    <div style="display:grid; gap:.75rem; max-width:520px;">
+      <input type="text" name="contact[name]" placeholder="Naam" required style="padding:.75rem; border:1px solid var(--border); border-radius:12px;">
+      <input type="email" name="contact[email]" placeholder="E-mail" required style="padding:.75rem; border:1px solid var(--border); border-radius:12px;">
+      <textarea name="contact[body]" placeholder="Je bericht" rows="6" style="padding:.75rem; border:1px solid var(--border); border-radius:12px;"></textarea>
+      <button class="btn" type="submit">Versturen</button>
+    </div>
+  {% endform %}
+</div>
+{% schema %}{ "name":"Contactformulier" }{% endschema %}

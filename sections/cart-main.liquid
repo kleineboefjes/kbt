@@ -1,0 +1,19 @@
+<div class="container" style="padding:1rem 0 2rem;">
+  <h1>Winkelwagen</h1>
+  {% if cart.item_count == 0 %}
+    <p>Je winkelwagen is leeg.</p>
+    <a class="btn" href="{{ routes.all_products_collection_url }}">Verder winkelen</a>
+  {% else %}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      <table style="width:100%; border-collapse:collapse;">
+        <thead><tr><th style="text-align:left;padding:.5rem;border-bottom:1px solid var(--border);">Product</th><th style="text-align:left;padding:.5rem;border-bottom:1px solid var(--border);">Prijs</th><th style="text-align:left;padding:.5rem;border-bottom:1px solid var(--border);">Aantal</th><th style="text-align:left;padding:.5rem;border-bottom:1px solid var(--border);">Subtotaal</th></tr></thead>
+        <tbody>{% for item in cart.items %}<tr><td style="padding:.5rem;border-bottom:1px solid var(--border);"><a href="{{ item.url }}">{{ item.product.title }}</a>{% if item.variant.title != 'Default Title' %}<div style="color:var(--muted); font-size:.9rem;">{{ item.variant.title }}</div>{% endif %}</td><td style="padding:.5rem;border-bottom:1px solid var(--border);">{{ item.price | money }}</td><td style="padding:.5rem;border-bottom:1px solid var(--border);"><input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0"></td><td style="padding:.5rem;border-bottom:1px solid var(--border);">{{ item.line_price | money }}</td></tr>{% endfor %}</tbody>
+      </table>
+      <div style="display:flex; justify-content:space-between; margin-top:1rem; align-items:center;">
+        <a class="btn" href="{{ routes.all_products_collection_url }}">Verder winkelen</a>
+        <div><div style="font-weight:700;">Totaal: {{ cart.total_price | money }}</div><button name="update" class="btn" style="background:#fff;color:var(--text);">Winkelwagen bijwerken</button><button type="submit" name="checkout" class="btn">Afrekenen</button></div>
+      </div>
+    </form>
+  {% endif %}
+</div>
+{% schema %}{ "name":"Winkelwagen" }{% endschema %}

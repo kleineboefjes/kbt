@@ -1,0 +1,61 @@
+<footer>
+  <div class="container" style="padding:2rem 1rem; display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:1rem;">
+    <div><h4>Kleine Boefjes</h4><p style="color:var(--muted);">Vrolijke baby- en kinderkleding.</p></div>
+    <div>
+      <h4>Menu</h4>
+      {% if settings.footer_menu_1 %}
+      <ul style="list-style:none; padding:0; margin:0;">
+        {% for link in linklists[settings.footer_menu_1].links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="{{ routes.all_products_collection_url }}">Shop</a></li>
+        <li><a href="{{ routes.collections_url }}">Collecties</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+      </ul>
+      {% endif %}
+    </div>
+    <div>
+      <h4>Service</h4>
+      {% if settings.footer_menu_2 %}
+      <ul style="list-style:none; padding:0; margin:0;">
+        {% for link in linklists[settings.footer_menu_2].links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="/policies/shipping-policy">Verzenden</a></li>
+        <li><a href="/policies/refund-policy">Retour</a></li>
+      </ul>
+      {% endif %}
+    </div>
+    <div>
+      <h4>Nieuwsbrief</h4>
+      {% form 'customer' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div style="display:flex; gap:.5rem;">
+          <input type="email" name="contact[email]" placeholder="Jouw e-mail" required style="flex:1; padding:.75rem; border:1px solid var(--border); border-radius:999px;">
+          <button class="btn" type="submit">Aanmelden</button>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+  <div class="container" style="padding:1rem; color:var(--muted); display:flex; justify-content:space-between; border-top:1px solid var(--border);">
+    <span>{{ settings.footer_note }}</span>
+
+</div>
+{% comment %} Betaalmethodes in de footer {% endcomment %}
+{% if shop.enabled_payment_types and shop.enabled_payment_types.size > 0 %}
+  <div class="footer__payment-icons">
+    <ul class="payment-icons-list" role="list">
+      {% for type in shop.enabled_payment_types %}
+        <li class="payment-icons-item">{{ type | payment_type_svg_tag }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+</footer>

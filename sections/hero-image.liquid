@@ -1,0 +1,34 @@
+<div class="container" style="padding:2rem 0;">
+  <div class="card" style="overflow:hidden;">
+    <div style="display:grid; grid-template-columns:1fr 1fr;">
+      <div style="padding:2rem;">
+        <h1 style="font-size:2rem; margin-top:.5rem;">👶 Kleine Boefjes Baby & kinderkleding    vol plezier
+🎀</h1>
+        <p style="color:var(--muted); max-width:45ch;">Zachte stoffen, speelse prints en praktische details. Mix & match kleding en accessoires voor elke dag.</p>
+        <div style="display:flex; gap:.5rem; margin-top:1rem;">
+          <a class="btn" href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}">{{ section.settings.button_1_label | default: "Shop nu" }}</a>
+        </div>
+      </div>
+      <div>
+        {% if section.settings.image != blank %}
+          <img src="{{ section.settings.image | image_url: width: 1000 }}" alt="Hero" style="width:100%; height:100%; object-fit:cover;">
+        {% else %}
+          <div style="min-height:320px; background:linear-gradient(135deg, var(--primary), #ffffff); display:flex; align-items:center; justify-content:center;">
+            <span style="opacity:.6;">Voeg hier je kinderfoto toe via sectie-instellingen</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name":"Hero (afbeelding)",
+  "settings":[
+    { "type":"image_picker", "id":"image", "label":"Afbeelding" },
+    { "type":"text", "id":"button_1_label", "label":"Knop 1 label", "default":"Shop nu" },
+    { "type":"url", "id":"button_1_link", "label":"Knop 1 link" },
+  ],
+  "presets":[{ "name":"Hero (afbeelding)" }]
+}
+{% endschema %}

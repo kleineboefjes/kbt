@@ -1,0 +1,6 @@
+{%- assign v = product.selected_or_first_available_variant -%}
+<div class="buy-buttons">
+  <button type="submit" {% unless v.available %}disabled{% endunless %}>
+    {%- if v.available -%}In winkelwagen{%- else -%}Uitverkocht{%- endif -%}
+  </button>
+</div>

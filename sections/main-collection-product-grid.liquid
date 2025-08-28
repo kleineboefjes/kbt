@@ -1,0 +1,212 @@
+{% comment %}
+  Kleine Boefies – Collectie product grid met filters
+  Volledige NL versie, schema netjes afgesloten
+{% endcomment %}
+
+<section class="section section--collection">
+  {{ 'component-card.css'  | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+  {%- style -%}
+    .section--collection .collection-header {
+      margin-bottom: 1rem;
+    }
+    .section--collection .collection-header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #3D2F2F;
+    }
+
+    /* Filters / sortering in KB-stijl */
+    .facets-container {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      background: #FAF7F2;
+    }
+    .facets-container h2 {
+      font-size: 1.1rem;
+      margin-bottom: .75rem;
+      color: #3D2F2F;
+    }
+    .facets__disclosure {
+      margin-bottom: .5rem;
+    }
+    .facets__summary {
+      cursor: pointer;
+      display: block;
+      padding: .25rem 0;
+      font-weight: 600;
+      color: #6cb4b8;
+    }
+    .facets__summary:hover {
+      color: #f4a6b0;
+    }
+
+    /* Product grid */
+    .section--collection .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    @media (min-width: 750px){
+      .section--collection .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (min-width: 990px){
+      .section--collection .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* Paginatie in pastel stijl */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: .5rem;
+      margin-top: 2rem;
+    }
+    .pagination a,
+    .pagination span {
+      display: inline-block;
+      padding: .5rem .75rem;
+      border-radius: 50%;
+      background: #f6f6f6;
+      color: #3D2F2F;
+      text-decoration: none;
+      transition: all .2s ease;
+      min-width: 36px;
+      text-align: center;
+    }
+    .pagination a:hover {
+      background: #f4a6b0;
+      color: white;
+    }
+    .pagination .current {
+      background: #6cb4b8;
+      color: #fff;
+      font-weight: bold;
+    }
+  {%- endstyle -%}
+
+  <div class="page-width">
+    <header class="collection-header">
+      <h1>{{ collection.title }}</h1>
+    </header>
+
+    {% paginate collection.products by section.settings.products_per_page %}
+      {% if section.settings.enable_filtering or section.settings.enable_sorting %}
+        <div class="facets-container">
+          <h2>Filteren en sorteren</h2>
+          {%- render 'facets',
+            results: collection,
+            enable_filtering: section.settings.enable_filtering,
+            enable_sorting: section.settings.enable_sorting
+          -%}
+        </div>
+      {% endif %}
+
+      {% if collection.products_count > 0 %}
+        <ul class="product-grid" role="list">
+          {% assign skip_card_product_styles = false %}
+          {% for product in collection.products %}
+            <li class="grid__item">
+              {% render 'card-product',
+                card_product: product,
+                media_aspect_ratio: section.settings.image_ratio,
+                show_secondary_image: section.settings.show_secondary_image,
+                quick_add: section.settings.enable_quick_add,
+                skip_styles: skip_card_product_styles,
+                section_id: section.id,
+                lazy_load: true
+              %}
+            </li>
+            {% assign skip_card_product_styles = true %}
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>Geen producten gevonden in deze collectie.</p>
+      {% endif %}
+
+      {% if paginate.pages > 1 %}
+        <nav class="pagination" role="navigation" aria-label="Paginatie">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" rel="prev">←</a>
+          {% endif %}
+
+          {% for part in paginate.parts %}
+            {% if part.is_link %}
+              <a href="{{ part.url }}">{{ part.title }}</a>
+            {% else %}
+              <span class="{% if part.title == paginate.current_page %}current{% endif %}">{{ part.title }}</span>
+            {% endif %}
+          {% endfor %}
+
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" rel="next">→</a>
+          {% endif %}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collectie raster (KB)",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "label": "Producten per pagina"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Beeldverhouding",
+      "default": "square",
+      "options": [
+        { "value": "square",   "label": "Vierkant" },
+        { "value": "portrait", "label": "Staand" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "Tweede afbeelding tonen bij hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "label": "Snel toevoegen-knop tonen",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Filters inschakelen",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Sortering inschakelen",
+      "default": true
+    }
+  ],
+  "presets": [
+    { "name": "Collectie raster (KB)" }
+  ]
+}
+{% endschema %}
